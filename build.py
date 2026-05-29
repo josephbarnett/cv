@@ -4,11 +4,14 @@
 Single source of truth: cv.yaml. Templates live in templates/.
 Outputs land in dist/:
 
-    dist/cv.html   modern responsive page (also the print-to-PDF source)
-    dist/cv.pdf    polished PDF, rendered from cv.html via headless Chrome
-    dist/cv.md     ATS / LinkedIn-friendly Markdown
-    dist/cv.tex    LaTeX source (compile with `make pdf-latex` once a TeX
-                   engine is installed)
+    dist/cv.html            modern responsive web page (host / view; the look
+                            you keep — not meant for ATS upload)
+    dist/cv-singlecol.pdf   modern single-column PDF — ATS-clean, upload this
+    dist/cv-twocol.pdf      two-column sidebar PDF — matches the web page, for
+                            sharing with humans (sidebar scrambles in ATS)
+    dist/cv-latex.pdf       classic LaTeX-typeset PDF — ATS-clean
+    dist/cv.md              ATS / LinkedIn-friendly Markdown
+    dist/cv.tex             LaTeX source (compiled to cv-latex.pdf)
 
 Inline emphasis in cv.yaml uses **bold** / *italic*; this script converts
 those markers to the correct markup for each format so the YAML stays
@@ -64,19 +67,10 @@ def inline_md(text: str) -> str:
 
 
 def inline_tex(text: str) -> str:
-    # Pull out the emphasis markers before escaping, escape the body,
-    # then wrap. Done in one pass so escaping never touches the markers.
-    def bold(m: re.Match) -> str:
-        return r"\textbf{" + _escape_tex(m.group(1)) + "}"
-
-    def ital(m: re.Match) -> str:
-        return r"\emph{" + _escape_tex(m.group(1)) + "}"
-
     out, last = [], 0
-    # Handle bold first, then italics on the remaining plain segments.
     for m in _BOLD.finditer(text):
         out.append(_italic_and_escape(text[last:m.start()]))
-        out.append(bold(m))
+        out.append(r"\textbf{" + _escape_tex(m.group(1)) + "}")
         last = m.end()
     out.append(_italic_and_escape(text[last:]))
     return "".join(out)
@@ -125,43 +119,66 @@ def _latex_env() -> Environment:
     )
 
 
-def render(data: dict) -> None:
+# (template, output, inline filter, env factory)
+TEXT_TARGETS = [
+    ("cv.html.j2", "cv.html", inline_html, _markup_env),
+    ("cv-singlecol.html.j2", "cv-singlecol.html", inline_html, _markup_env),
+    ("cv-twocol.html.j2", "cv-twocol.html", inline_html, _markup_env),
+    ("cv.md.j2", "cv.md", inline_md, _markup_env),
+    ("cv.tex.j2", "cv.tex", inline_tex, _latex_env),
+]
+
+
+def render_text(data: dict) -> None:
     DIST.mkdir(exist_ok=True)
-    targets = {
-        "cv.html.j2": ("cv.html", inline_html, _markup_env()),
-        "cv.md.j2": ("cv.md", inline_md, _markup_env()),
-        "cv.tex.j2": ("cv.tex", inline_tex, _latex_env()),
-    }
-    for tpl_name, (out_name, inline, env) in targets.items():
+    for tpl_name, out_name, inline, env_factory in TEXT_TARGETS:
+        env = env_factory()
         env.filters["inline"] = inline
-        tpl = env.get_template(tpl_name)
-        (DIST / out_name).write_text(tpl.render(**data))
+        (DIST / out_name).write_text(env.get_template(tpl_name).render(**data))
         print(f"  rendered dist/{out_name}")
 
 
-def render_pdf() -> None:
-    src = DIST / "cv.html"
-    out = DIST / "cv.pdf"
+def _chrome_pdf(html_name: str, pdf_name: str) -> None:
     if not Path(CHROME).exists():
-        print("  ! Chrome not found — skipping PDF. Open dist/cv.html and "
-              "print to PDF, or install Chrome.")
+        print(f"  ! Chrome not found — skipping dist/{pdf_name}")
         return
+    src = (DIST / html_name).resolve().as_uri()
     subprocess.run(
         [CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-         f"--print-to-pdf={out}", src.resolve().as_uri()],
-        check=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+         f"--print-to-pdf={DIST / pdf_name}", src],
+        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     )
-    print(f"  rendered dist/cv.pdf")
+    print(f"  rendered dist/{pdf_name}")
+
+
+def _latex_pdf() -> None:
+    if shutil.which("tectonic") is None:
+        print("  ! tectonic not found — skipping dist/cv-latex.pdf "
+              "(install: brew install tectonic)")
+        return
+    subprocess.run(["tectonic", "cv.tex"], cwd=DIST, check=True,
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    (DIST / "cv.pdf").replace(DIST / "cv-latex.pdf")
+    print("  rendered dist/cv-latex.pdf")
+
+
+def build_pdfs() -> None:
+    _chrome_pdf("cv-singlecol.html", "cv-singlecol.pdf")
+    _chrome_pdf("cv-twocol.html", "cv-twocol.pdf")
+    _latex_pdf()
+    # Primary deliverable: the two-column layout (cv.pdf). Single-column and
+    # LaTeX remain as ATS-clean alternatives for portals that need them.
+    if (DIST / "cv-twocol.pdf").exists():
+        shutil.copyfile(DIST / "cv-twocol.pdf", DIST / "cv.pdf")
+        print("  cv.pdf -> two-column (primary)")
 
 
 def main() -> int:
     data = yaml.safe_load((ROOT / "cv.yaml").read_text())
     print("Building CV from cv.yaml:")
-    render(data)
+    render_text(data)
     if "--no-pdf" not in sys.argv:
-        render_pdf()
+        build_pdfs()
     print("Done.")
     return 0
 
