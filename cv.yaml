@@ -92,7 +92,7 @@ experience:
     end: FEB 2003
     location: "Dedham, MA"
     bullets:
-      - "Built a video-streaming platform over an MPLS backbone for NTT DoCoMo using a JavaScript interpreting engine and RTSP."
+      - "Built one of the first mobile video-on-demand platforms — for NTT DoCoMo, over an MPLS backbone using a JavaScript interpreting engine and RTSP."
       - "Developed cross-platform backbone protocol stacks that helped capture 70% of the telecommunications protocol market."
       - "Delivered advanced engineering training on networking and routing protocols."
 
