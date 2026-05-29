@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ name }} — CV (single column)</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.6in 0.7in; }
+  :root { --accent:#f2511b; --ink:#1a1a1a; --muted:#6b6b6b; --hair:#dcdcdc; }
+  * { box-sizing: border-box; }
+  body { margin:0; color:var(--ink); font-family:"Lato",sans-serif; font-weight:400; font-size:10.5pt; line-height:1.42; }
+  .name { font-family:"Raleway",sans-serif; font-weight:800; font-size:26pt; letter-spacing:-0.5px; margin:0; }
+  .title { font-family:"Raleway",sans-serif; font-weight:600; font-size:13pt; color:var(--accent); margin:2px 0 6px; }
+  .contact { font-size:9.5pt; color:var(--muted); border-bottom:2px solid var(--accent); padding-bottom:8px; margin-bottom:4px; }
+  .contact a { color:var(--muted); text-decoration:none; }
+  .contact .sep { color:var(--hair); margin:0 6px; }
+  /* No letter-spacing: tracked caps extract as "S U M M A RY" and break ATS section detection. */
+  .sec { font-family:"Raleway",sans-serif; font-weight:700; font-size:10.5pt; text-transform:uppercase; color:var(--accent); margin:14px 0 5px; padding-bottom:3px; border-bottom:1px solid var(--hair); }
+  .summary { font-weight:300; }
+  .job { margin-top:9px; page-break-inside:avoid; }
+  .job-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .job-org { font-family:"Raleway",sans-serif; font-weight:700; font-size:11pt; }
+  .job-role { font-weight:400; }
+  .job-meta { font-size:8.5pt; color:var(--muted); letter-spacing:.3px; white-space:nowrap; }
+  ul { margin:3px 0 0; padding-left:0; list-style:none; }
+  li { position:relative; padding-left:14px; margin-bottom:3px; font-weight:300; }
+  li::before { content:""; position:absolute; left:0; top:7px; width:4.5px; height:4.5px; background:var(--accent); border-radius:50%; }
+  strong { font-weight:700; }
+  /* Skills + education as compact full-width two-up grids */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:2px 28px; }
+  .skill-row { font-weight:300; margin-bottom:2px; }
+  .skill-row b { font-weight:700; }
+  .edu-row { margin-bottom:4px; }
+  .edu-row b { font-family:"Raleway",sans-serif; font-weight:700; }
+  .edu-row .m { color:var(--muted); font-size:8.5pt; }
+</style>
+</head>
+<body>
+  <div class="name">{{ name }}</div>
+  <div class="title">{{ title }}</div>
+  <div class="contact">
+    {{ contact.phone }}<span class="sep">·</span><a href="mailto:{{ contact.email }}">{{ contact.email }}</a><span class="sep">·</span>{{ contact.location }}<span class="sep">·</span><a href="https://{{ contact.linkedin }}">{{ contact.linkedin }}</a>
+  </div>
+
+  <div class="sec">Summary</div>
+  <div class="summary">{{ summary }}</div>
+
+  <div class="sec">Professional Experience</div>
+  {% for job in experience %}
+  <div class="job">
+    <div class="job-head">
+      <span class="job-org">{{ job.org }} <span class="job-role">/ {{ job.role }}</span></span>
+      <span class="job-meta">{{ job.start }} – {{ job.end }} · {{ job.location | upper }}</span>
+    </div>
+    <ul>{% for b in job.bullets %}<li>{{ b | inline }}</li>{% endfor %}</ul>
+  </div>
+  {% endfor %}
+
+  <div class="sec">Skills</div>
+  <div>
+    {% for s in skills %}<div class="skill-row"><b>{{ s.label }}:</b> {{ s['items'] }}</div>{% endfor %}
+  </div>
+
+  <div class="sec">Education</div>
+  <div class="grid2">
+    {% for e in education %}<div class="edu-row"><b>{{ e.school }}</b><br>{{ e.detail | inline }}<br><span class="m">{{ e.meta }}</span></div>{% endfor %}
+  </div>
+
+  <div class="sec">Community</div>
+  <div class="summary">{{ community }}</div>
+</body>
+</html>

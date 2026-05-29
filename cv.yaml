@@ -1,0 +1,127 @@
+# ─────────────────────────────────────────────────────────────────────────
+# Single source of truth for Joseph Barnett's CV.
+# Edit this file, then run `make` to regenerate every format
+# (HTML page, PDF, Markdown, LaTeX source).
+#
+# Inline emphasis: wrap text in **double asterisks** for bold. The build
+# converts it to the right markup per format (<strong>, **md**, \textbf{}).
+# ─────────────────────────────────────────────────────────────────────────
+
+name: Joseph Barnett
+title: "Tech Architect · Distinguished Engineer"
+
+contact:
+  phone: "+1.617.447.7697"
+  email: joseph.barnett@gmail.com
+  location: "Walla Walla, Washington"
+  linkedin: linkedin.com/in/josephbarnett
+
+summary: >-
+  Distinguished engineer and architect with 30 years building pioneering
+  technology — from kernel and network protocol stacks to cloud-native
+  platforms and AI-era observability. Drive large architectural decisions
+  end-to-end: design, ship, support, and validate in production. Operate as a
+  force multiplier across engineering, product, sales, and the C-suite,
+  turning deep technical capability into market-defining business outcomes.
+
+experience:
+  - org: CloudZero
+    role: Architect, Distinguished Engineer
+    start: MAY 2024
+    end: PRESENT
+    location: "Walla Walla, WA"
+    bullets:
+      - "Architecting the **Collector and AI Gateway** — capturing both infrastructure and AI spend and tying it to the business value it produces, the market's hardest current problem. The foundation that redirected the company's pivot to its new **AI ROI / Financial Control Plane** category."
+      - "Took the AI-telemetry agent from prototype to production in **two weeks**, catalyzing a company-wide P0."
+      - "Architect and owner of CloudZero's **Kubernetes cost-attribution capabilities** — open-source policy and effort definitions, first shipped software, and strategy."
+      - "Scaled cost attribution to **50 TB/week** across **10,000+ node** clusters and **5,000+ clusters** under observation — serving enterprises including **DoorDash** and **Twilio** while **halving the solution's cost** for both customers and CloudZero."
+      - "Reduced Kubernetes cost-attribution error from **20%+ to within 0.09%**."
+      - "Mentored engineers and emerging leaders across the organization — coaching up, down, and across was a core part of the role."
+
+  - org: Slim.AI
+    role: First Engineer, Distinguished Engineer
+    start: NOV 2020
+    end: MAY 2024
+    location: "Acton, MA"
+    bullets:
+      - "Spearheaded a container minification and security platform, contributing to a Series A raise and an early market buyout offer."
+      - "Designed and built research prototypes including a Docker Desktop Extension that delivered 20% month-over-month user growth."
+      - "Architected the foundational CI/CD, platform, workflow-orchestration, security, and core scanning/intelligence/build engines that landed the company's first customer."
+      - "Engaged directly with design partners to align product with market needs; traveled internationally for on-site onboarding and design sessions."
+
+  - org: Cisco Systems
+    role: Product Architect, Lead Security Architect, AppSec Manager
+    start: JAN 2017
+    end: NOV 2020
+    location: "Waltham, MA"
+    bullets:
+      - "Led cloud-security engineering and architecture for a transformation achieving FedRAMP, SOC2, and ISO 27001 compliance across 63 teams."
+      - "Partnered with global sales to secure a $5M investment into the cloud-security division to drive compliance programs."
+      - "As Federal Customer Engineer, drove adoption through design and procurement engagements that helped open a $1B federal market opportunity for Cisco Umbrella."
+      - "Delivered conference presentations establishing thought leadership in cloud-native security and compliance."
+
+  - org: Metratech / Ericsson
+    role: Software Engineer VI
+    start: DEC 2009
+    end: JAN 2012
+    location: "Waltham, MA"
+    bullets:
+      - "Led a domain-specific-language billing-platform generation engine for high-speed inline billing and contract enforcement."
+      - "Led design and delivery of the billing system for the Microsoft Azure platform."
+      - "Drove system refactoring and integration through the Ericsson acquisition, ensuring a seamless transition."
+
+  - org: Egenera, Inc.
+    role: Sr. Software Engineer
+    start: JAN 2007
+    end: DEC 2009
+    location: "Marlborough, MA"
+    bullets:
+      - "Built virtualization and management technologies for server, chassis, rack, and warehouse control, improving data-center efficiency."
+
+  - org: Motorola
+    role: Software Engineer III
+    start: FEB 2003
+    end: JAN 2007
+    location: "Southborough, MA"
+    bullets:
+      - "Engineered OS support packages, drivers, and firmware for Linux kernel distributions on the ATCA product line."
+
+  - org: Netplane Systems
+    role: Software Engineer I–II
+    start: JUN 2000
+    end: FEB 2003
+    location: "Dedham, MA"
+    bullets:
+      - "Built a video-streaming platform over an MPLS backbone for NTT DoCoMo using a JavaScript interpreting engine and RTSP."
+      - "Developed cross-platform backbone protocol stacks that helped capture 70% of the telecommunications protocol market."
+      - "Delivered advanced engineering training on networking and routing protocols."
+
+skills:
+  - label: AI & AI Infrastructure
+    items: "AI cost attribution & observability, LLM gateways & telemetry proxies, agentic systems & multi-agent orchestration, AI-augmented engineering"
+  - label: Kubernetes & Cloud-Native
+    items: "Deep Kubernetes (EKS, CRI/CNI/CSI, RBAC, runtime security, GitOps), Docker, IaC (Terraform, Pulumi, CloudFormation), multi-cloud (AWS, Azure, GCP)"
+  - label: Observability & Operations
+    items: "Telemetry pipelines, metrics & tracing, cost attribution, CI/CD, incident response & runbooks, SRE practices"
+  - label: Systems & Internals
+    items: "Linux/Windows OS internals, firmware, kernel & driver development, virtualization design, system architecture, distributed systems"
+  - label: Networking
+    items: "Protocol design & stacks (MPLS, RTSP, routing), global edge & Anycast, datacenter-to-cloud scale-out, eBPF telemetry, VPC/CIDR & egress design"
+  - label: Security & Compliance
+    items: "FedRAMP, SOC 2, ISO 27001, application security, enterprise key management & revocability"
+  - label: Data & Stream Processing
+    items: "Snowflake, Trino, stream processing, Postgres, MS SQL Server, Oracle, DynamoDB, MongoDB"
+  - label: Languages & Compilers
+    items: "Compiler & DSL design and implementation, language runtimes & interpreters; Go, Rust, Python, Java, C#, C++, JavaScript, ASM"
+
+education:
+  - school: Northeastern University
+    detail: "B.S., Computer Engineering — *magna cum laude*"
+    meta: "2002–2007 · Boston, MA"
+  - school: Portland Community College
+    detail: "A.S., Computer Software Engineering Tech. — *magna cum laude*"
+    meta: "1997–2000 · Portland, OR"
+
+community: >-
+  Active open-source contributor and collaborator across industry peer
+  efforts; regular participant in community hackathon events.

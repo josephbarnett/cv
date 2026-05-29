@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ name }} — CV (two column)</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0; }
+  :root { --accent:#f2511b; --ink:#1a1a1a; --muted:#6b6b6b; --hair:#dcdcdc; --sidebar:2.4in; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; }
+  body { color:var(--ink); font-family:"Lato",sans-serif; font-weight:400; font-size:10pt; line-height:1.4; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  /* Light-grey sidebar (matches the HTML page). Compact so it fits one page —
+     then the fixed-position repeat on later pages is clean, not overlapping. */
+  .sidebar {
+    position: fixed; top:0; left:0; bottom:0; width:var(--sidebar);
+    background:#f4f4f5; color:var(--ink); padding:0.4in 0.3in;
+    border-right:1px solid var(--hair);
+  }
+  .sidebar .name { font-family:"Raleway",sans-serif; font-weight:800; font-size:17pt; line-height:1.05; color:var(--ink); margin:0; }
+  .sidebar .title { font-family:"Raleway",sans-serif; font-weight:600; font-size:9.5pt; color:var(--accent); margin:3px 0 10px; }
+  .sidebar .sec { font-family:"Raleway",sans-serif; font-weight:700; font-size:8pt; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin:11px 0 4px; }
+  .sidebar a { color:var(--ink); text-decoration:none; }
+  .contact-line { font-size:8pt; color:#555; margin-bottom:2px; word-break:break-word; }
+  .skill-row { font-size:8pt; margin-bottom:4px; font-weight:300; color:#333; line-height:1.3; }
+  .skill-row b { font-weight:700; color:var(--ink); display:block; }
+  .edu-row { font-size:8pt; margin-bottom:4px; color:#333; line-height:1.3; }
+  .edu-row b { font-weight:700; color:var(--ink); }
+  .edu-row .m { color:var(--muted); }
+
+  .main { margin-left:var(--sidebar); padding:0.5in 0.55in 0.5in 0.4in; }
+  .sec { font-family:"Raleway",sans-serif; font-weight:700; font-size:10pt; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin:0 0 5px; padding-bottom:3px; border-bottom:1px solid var(--hair); }
+  .sec.mt { margin-top:14px; }
+  .summary { font-weight:300; }
+  .job { margin-top:9px; page-break-inside:avoid; }
+  .job-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .job-org { font-family:"Raleway",sans-serif; font-weight:700; font-size:10.5pt; }
+  .job-role { font-weight:400; }
+  .job-meta { font-size:8pt; color:var(--muted); white-space:nowrap; }
+  ul { margin:3px 0 0; padding-left:0; list-style:none; }
+  li { position:relative; padding-left:13px; margin-bottom:3px; font-weight:300; }
+  li::before { content:""; position:absolute; left:0; top:6.5px; width:4px; height:4px; background:var(--accent); border-radius:50%; }
+  strong { font-weight:700; }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="name">{{ name }}</div>
+    <div class="title">{{ title }}</div>
+
+    <div class="sec">Contact</div>
+    <div class="contact-line">{{ contact.phone }}</div>
+    <div class="contact-line"><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></div>
+    <div class="contact-line">{{ contact.location }}</div>
+    <div class="contact-line"><a href="https://{{ contact.linkedin }}">{{ contact.linkedin }}</a></div>
+
+    <div class="sec">Skills</div>
+    {% for s in skills %}<div class="skill-row"><b>{{ s.label }}</b>{{ s['items'] }}</div>{% endfor %}
+
+    <div class="sec">Education</div>
+    {% for e in education %}<div class="edu-row"><b>{{ e.school }}</b><br>{{ e.detail | inline }}<br><span class="m">{{ e.meta }}</span></div>{% endfor %}
+  </aside>
+
+  <main class="main">
+    <div class="sec">Summary</div>
+    <div class="summary">{{ summary }}</div>
+
+    <div class="sec mt">Professional Experience</div>
+    {% for job in experience %}
+    <div class="job">
+      <div class="job-head">
+        <span class="job-org">{{ job.org }} <span class="job-role">/ {{ job.role }}</span></span>
+        <span class="job-meta">{{ job.start }} – {{ job.end }} · {{ job.location | upper }}</span>
+      </div>
+      <ul>{% for b in job.bullets %}<li>{{ b | inline }}</li>{% endfor %}</ul>
+    </div>
+    {% endfor %}
+
+    <div class="sec mt">Community</div>
+    <div class="summary">{{ community }}</div>
+  </main>
+</body>
+</html>
