@@ -1,0 +1,92 @@
+%# Generated from cv.yaml by build.py — do not edit by hand.
+%# Template delimiters are LaTeX-safe: \VAR{...} \BLOCK{...} %% line stmts.
+%# Compile with a UTF-8 engine; tectonic recommended:  tectonic dist/cv.tex
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage{fontspec}  %# tectonic uses XeTeX; fontspec gives native UTF-8 (— · etc.)
+\usepackage[margin=0.85in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\definecolor{accent}{HTML}{F2511B}
+\definecolor{muted}{HTML}{6B6B6B}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{accent}\scshape}
+  {}{0em}{}[\color{accent!30}\titlerule]
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+
+\setlist[itemize]{leftmargin=1.2em, itemsep=2pt, topsep=3pt,
+  label={\color{accent}\textbullet}}
+
+\setlength{\emergencystretch}{2em}  %# avoid overfull lines on long slashed tokens
+
+% Left box (org / role) wraps independently of the right box (date · location),
+% so long titles never collide with the dates.
+\newcommand{\entry}[3]{%
+  \vspace{4pt}%
+  \noindent\begin{minipage}[t]{0.68\linewidth}\raggedright{\bfseries #1}\,/ #2\end{minipage}%
+  \hfill%
+  \begin{minipage}[t]{0.30\linewidth}\raggedleft{\small\color{muted}#3}\end{minipage}\par
+}
+
+\begin{document}
+
+% Header
+{\Huge\bfseries \VAR{name | inline}}\\[2pt]
+{\large\color{accent} \VAR{title | inline}}\\[6pt]
+{\small\color{muted}
+  \VAR{contact.phone | inline} \quad
+  \href{mailto:\VAR{contact.email}}{\VAR{contact.email | inline}} \quad
+  \VAR{contact.location | inline} \quad
+  \href{https://\VAR{contact.linkedin}}{\VAR{contact.linkedin | inline}}
+}\\[-4pt]
+\noindent\textcolor{accent!40}{\rule{\linewidth}{1.2pt}}
+
+\section{Summary}
+\VAR{summary | inline}
+
+\section{Professional Experience}
+\BLOCK{for job in experience}
+\entry{\VAR{job.org | inline}}{\VAR{job.role | inline}}{\VAR{job.start} -- \VAR{job.end} \textperiodcentered\ \VAR{job.location | inline}}
+\begin{itemize}
+\BLOCK{for b in job.bullets}
+  \item \VAR{b | inline}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endfor}
+
+\BLOCK{if projects}
+\section{Selected Projects}
+\BLOCK{for p in projects}
+\entry{\VAR{p.name | inline}}{\VAR{p.tagline | inline}}{}
+\begin{itemize}
+\BLOCK{for b in p.bullets}
+  \item \VAR{b | inline}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endfor}
+\BLOCK{endif}
+
+\section{Skills}
+\begin{itemize}[label={}]
+\BLOCK{for s in skills}
+  \item {\bfseries \VAR{s.label | inline}:}\ \VAR{s['items'] | inline}
+\BLOCK{endfor}
+\end{itemize}
+
+\section{Education}
+\BLOCK{for e in education}
+\entry{\VAR{e.school | inline}}{\VAR{e.detail | inline}}{\VAR{e.meta | inline}}
+\BLOCK{endfor}
+
+\section{Community}
+\VAR{community | inline}
+
+\end{document}

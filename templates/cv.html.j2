@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ name }} — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #f2511b;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --hair: #e4e4e4;
+    --bg: #ffffff;
+    --max: 980px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: #f4f4f5;
+    color: var(--ink);
+    font-family: "Lato", system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  .page {
+    max-width: var(--max);
+    margin: 32px auto;
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 8px 32px rgba(0,0,0,.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  header {
+    padding: 44px 52px 28px;
+    border-top: 5px solid var(--accent);
+  }
+  .name {
+    font-family: "Raleway", sans-serif;
+    font-weight: 800;
+    font-size: 38px;
+    letter-spacing: -0.5px;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .title {
+    font-family: "Raleway", sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--accent);
+    margin: 6px 0 0;
+  }
+  .contact {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .contact a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--hair); }
+  .contact a:hover { color: var(--accent); border-color: var(--accent); }
+  .contact .ico { color: var(--accent); font-weight: 700; margin-right: 5px; }
+  .body { display: grid; grid-template-columns: 1fr 290px; }
+  .main { padding: 8px 52px 48px; }
+  .aside { padding: 28px 40px 48px 36px; background: #fafafa; border-left: 1px solid var(--hair); }
+  .sec {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 32px 0 4px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--hair);
+  }
+  .main > .sec:first-of-type { margin-top: 24px; }
+  .aside > .sec:first-of-type { margin-top: 0; }
+  .summary { margin: 10px 0 0; font-weight: 300; font-size: 15.5px; }
+  .job { margin-top: 18px; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .job-org { font-family: "Raleway", sans-serif; font-weight: 700; font-size: 16px; }
+  .job-role { font-weight: 400; color: var(--ink); }
+  .job-meta { font-size: 12px; color: var(--muted); letter-spacing: .3px; white-space: nowrap; }
+  ul.bullets { margin: 8px 0 0; padding-left: 0; list-style: none; }
+  ul.bullets li { position: relative; padding-left: 18px; margin-bottom: 6px; font-weight: 300; }
+  ul.bullets li::before {
+    content: ""; position: absolute; left: 0; top: 9px;
+    width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+  }
+  ul.bullets strong { font-weight: 700; }
+  .skill-group { margin-bottom: 14px; }
+  .skill-label { font-weight: 700; font-size: 13px; display: block; margin-bottom: 2px; }
+  .skill-list { font-weight: 300; font-size: 13.5px; color: #333; }
+  .edu { margin-bottom: 14px; }
+  .edu-school { font-family: "Raleway", sans-serif; font-weight: 700; font-size: 14px; }
+  .edu-detail { font-weight: 300; font-size: 13.5px; }
+  .edu-meta { font-size: 12px; color: var(--muted); }
+  .aside p { font-weight: 300; font-size: 13.5px; }
+  @media (max-width: 760px) {
+    .body { grid-template-columns: 1fr; }
+    .aside { border-left: none; border-top: 1px solid var(--hair); }
+    header, .main, .aside { padding-left: 28px; padding-right: 28px; }
+    .name { font-size: 31px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 10.5pt; }
+    .page { box-shadow: none; margin: 0; max-width: none; border-radius: 0; }
+    .aside { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .job { page-break-inside: avoid; }
+    header { padding-top: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1 class="name">{{ name }}</h1>
+    <p class="title">{{ title }}</p>
+    <div class="contact">
+      <span><span class="ico">✆</span>{{ contact.phone }}</span>
+      <span><span class="ico">✉</span><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></span>
+      <span><span class="ico">⚲</span>{{ contact.location }}</span>
+      <span><span class="ico">in</span><a href="https://{{ contact.linkedin }}">{{ contact.linkedin }}</a></span>
+    </div>
+  </header>
+
+  <div class="body">
+    <div class="main">
+      <div class="sec">Summary</div>
+      <p class="summary">{{ summary }}</p>
+
+      <div class="sec">Professional Experience</div>
+      {% for job in experience %}
+      <div class="job">
+        <div class="job-head">
+          <span class="job-org">{{ job.org }} <span class="job-role">/ {{ job.role }}</span></span>
+          <span class="job-meta">{{ job.start }} – {{ job.end }} · {{ job.location | upper }}</span>
+        </div>
+        <ul class="bullets">
+          {% for b in job.bullets %}
+          <li>{{ b | inline }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+
+      {% if projects %}
+      <div class="sec">Selected Projects</div>
+      {% for p in projects %}
+      <div class="job">
+        <div class="job-head">
+          <span class="job-org">{{ p.name }} <span class="job-role">/ {{ p.tagline }}</span></span>
+        </div>
+        <ul class="bullets">
+          {% for b in p.bullets %}
+          <li>{{ b | inline }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="aside">
+      <div class="sec">Skills</div>
+      {% for s in skills %}
+      <div class="skill-group">
+        <span class="skill-label">{{ s.label }}</span>
+        <span class="skill-list">{{ s['items'] }}</span>
+      </div>
+      {% endfor %}
+
+      <div class="sec">Education</div>
+      {% for e in education %}
+      <div class="edu">
+        <div class="edu-school">{{ e.school }}</div>
+        <div class="edu-detail">{{ e.detail | inline }}</div>
+        <div class="edu-meta">{{ e.meta }}</div>
+      </div>
+      {% endfor %}
+
+      <div class="sec">Community</div>
+      <p>{{ community }}</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
