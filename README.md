@@ -6,10 +6,18 @@ Single-source CV. Edit **`cv.yaml`**, run **`make`**, get every format.
 
 ```sh
 make            # render the web page + all 3 PDFs + Markdown + LaTeX source
+make publish    # build, then refresh the repo-root cv.html + resume.pdf
 make open       # build, then open the HTML page in your browser
 make docx       # also produce dist/cv.docx (Markdown → Word, for ATS portals)
 make clean      # remove dist/
 ```
+
+## Published files (stable URLs)
+
+`cv.html` and `resume.pdf` live at the repo root because external sites link to
+them directly — those paths must stay put. `make publish` regenerates them from
+`cv.yaml` (web page → `cv.html`, two-column PDF → `resume.pdf`) without changing
+the URLs. Everything else is build output under `dist/` (gitignored).
 
 ## Outputs (`dist/`)
 
